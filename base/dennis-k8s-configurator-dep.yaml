@@ -2,11 +2,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    fluxcd.io/automated: "true"
-#    fluxcd.io/tag.dennis-k8s-configurator: regex:^[0-9]+
-    fluxcd.io/tag.dennis-k8s-configurator: regex:^dev-.*
-  generation: 4
   labels:
     app.kubernetes.io/instance: dennis-k8s-configurator
     app.kubernetes.io/name: dennis-k8s-configurator

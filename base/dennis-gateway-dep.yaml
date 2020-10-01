@@ -2,10 +2,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    fluxcd.io/automated: "true"
-    fluxcd.io/tag.dennis-gateway: regex:^dev-.*
-  generation: 4
   labels:
     app.kubernetes.io/instance: dennis-gateway
     app.kubernetes.io/name: dennis-gateway
