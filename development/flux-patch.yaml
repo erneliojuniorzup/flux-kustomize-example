@@ -17,7 +17,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: dennis-gateway
- namespace: dev-test
+  namespace: dev-test
 spec:
   template:
     spec:
