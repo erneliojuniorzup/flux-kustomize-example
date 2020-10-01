@@ -4,7 +4,6 @@ kind: Deployment
 metadata:
   annotations:
     fluxcd.io/automated: "true"
-#    fluxcd.io/tag.dennis-gateway: regex:^[0-9]+
     fluxcd.io/tag.dennis-gateway: regex:^dev-.*
   generation: 4
   labels:

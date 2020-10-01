@@ -4,3 +4,4 @@ kind: Deployment
 metadata:
   annotations:
     flux.weave.works/automated: "true"
+  name: dennis-gateway
