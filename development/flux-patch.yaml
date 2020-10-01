@@ -2,11 +2,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: dev-test
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
   annotations:
     flux.weave.works/automated: "true"
   namespace: dev-test
