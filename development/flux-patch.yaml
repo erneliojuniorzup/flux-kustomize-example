@@ -2,6 +2,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    fluxcd.io/automated: "true"
+    fluxcd.io/tag.dennis-builder-handler: regex:^dev-.*
   name: dennis-builder-handler
   namespace: dev-test
 spec:
@@ -16,6 +19,9 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    fluxcd.io/automated: "true"
+    fluxcd.io/tag.dennis-gateway: regex:^dev-.*
   name: dennis-gateway
   namespace: dev-test
 spec:
@@ -30,6 +36,9 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    fluxcd.io/automated: "true"
+    fluxcd.io/tag.dennis-k8s-configurator: regex:^dev-.*
   name: dennis-k8s-configurator
   namespace: dev-test
 spec:
@@ -44,6 +53,9 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    fluxcd.io/automated: "true"
+    fluxcd.io/tag.dennis-middleware: regex:^dev-.*
   name: dennis-middleware
   namespace: dev-test
 spec:
@@ -58,6 +70,9 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    fluxcd.io/automated: "true"
+    fluxcd.io/tag.dennis-portal: regex:^dev-.*
   name: dennis-portal
   namespace: dev-test
 spec:
