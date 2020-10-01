@@ -11,7 +11,6 @@ metadata:
     app.kubernetes.io/instance: dennis-gateway
     app.kubernetes.io/name: dennis-gateway
   name: dennis-gateway
-  namespace: dev
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
