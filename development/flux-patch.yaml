@@ -2,6 +2,5 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    flux.weave.works/automated: "true"
-  name: dennis-gateway
+  name: dennis-*
+  namespace: demo
