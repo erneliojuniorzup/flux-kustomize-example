@@ -1,0 +1,134 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    fluxcd.io/automated: "true"
+#    fluxcd.io/tag.dennis-k8s-configurator: regex:^[0-9]+
+    fluxcd.io/tag.dennis-k8s-configurator: regex:^dev-.*
+  generation: 4
+  labels:
+    app.kubernetes.io/instance: dennis-k8s-configurator
+    app.kubernetes.io/name: dennis-k8s-configurator
+  name: dennis-k8s-configurator
+  namespace: dev
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: dennis-k8s-configurator
+      app.kubernetes.io/name: dennis-k8s-configurator
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "3000"
+      labels:
+        app.kubernetes.io/instance: dennis-k8s-configurator
+        app.kubernetes.io/name: dennis-k8s-configurator
+    spec:
+      shareProcessNamespace: true
+      containers:
+      - env:
+        - name: LOG_LEVEL
+          value: "debug"
+        - name: VAULT_ADDR
+          value: "http://vault-0.vault-internal:8200"
+        - name: VAULT_REPLICAS
+          value: "2"
+        - name: VAULT_ADDR_PLACEHOLDER
+          value: "http://vault-%d.vault-internal:8200"
+        - name: CONSUL_HTTP_ADDR
+          value: "http://dennis-consul-server:8500"
+        - name: HELM_RELEASE
+          value: "dennis"
+        - name: POSTGRES_HOST
+          value: "dennis.creca4baieln.sa-east-1.rds.amazonaws.com"
+        - name: POSTGRES_USERNAME
+          value: "dennis"
+        - name: POSTGRES_PASSWORD
+          value: "LyRqzahJHcOKk3NC"
+        - name: POSTGRES_DBNAME
+          value: "dennis"
+        - name: POSTGRES_SSL
+          value: "disable"
+        - name: BUILDER_WRAPPER_IMAGE
+          value: "731927492438.dkr.ecr.sa-east-1.amazonaws.com/dennis-builder-wrapper:latest"
+        - name: JAEGER_SAMPLING_SERVER_URL
+          value: "http://jaeger-tracing-agent.observability.svc.cluster.local:5778/sampling"
+        - name: JAEGER_LOCAL_AGENT_HOST_PORT
+          value: "jaeger-tracing-agent.observability.svc.cluster.local:6831"
+        - name: SECURITY_PROVIDER_CLIENT_ID
+          value: "user-login"
+        - name: SECURITY_PROVIDER_CLIENT_SECRET
+          value: "b50a33a0-eac4-40a1-8dcf-8e113c7af898"
+        - name: SECURITY_PROVIDER_OTP
+          value: "false"
+        - name: SECURITY_PROVIDER_REALM
+          value: "dennis"
+        - name: SECURITY_PROVIDER_TTL
+          value: "36000"
+        - name: SECURITY_PROVIDER_URL
+          value: "https://keycloak.devdennis.zup.io"
+        - name: AWS_BUCKET_NAME
+          value: "bucket-13528094685555"
+        - name: AWS_REGION
+          value: "sa-east-1"
+        - name: KUBERNETES_DOCKER_REGISTRY
+          value: "731927492438.dkr.ecr.sa-east-1.amazonaws.com"
+        - name: BUILDER_WRAPPER_DEADLINE_SEC
+          value: "1200"
+        - name: BUILDER_WRAPPER_CPU_LIMIT
+          value: "1024m"
+        - name: BUILDER_WRAPPER_CPU_REQUEST
+          value: "1024m"
+        - name: BUILDER_WRAPPER_MEM_LIMIT
+          value: "1024Mi"
+        - name: BUILDER_WRAPPER_MEM_REQUEST
+          value: "1024Mi"
+        - name: RUNNER_DEADLINE_SEC
+          value: "300"
+        - name: RUNNER_CPU_LIMIT
+          value: "256m"
+        - name: RUNNER_CPU_REQUEST
+          value: "256m"
+        - name: RUNNER_MEM_LIMIT
+          value: "256Mi"
+        - name: RUNNER_MEM_REQUEST
+          value: "256Mi"
+        - name: LIVEPASS_URL
+          value: "https://idm-dev.continuousplatform.com/auth/realms/ZupDev/protocol/openid-connect"
+        - name: LIVEPASS_CALLBACK_URL
+          value: "https://dennis-portal.devdennis.zup.io/callback"
+        - name: LIVEPASS_CALLBACK_CLIENT_ID
+          value: "Dennis"
+        - name: MIDDLEWARE_URL
+          value: "https://dennis-middleware.devdennis.zup.io"
+        image: 731927492438.dkr.ecr.sa-east-1.amazonaws.com/dennis-k8s-configurator:dev-9
+        imagePullPolicy: Always
+        name: dennis-k8s-configurator
+        securityContext: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        resources:
+          limits:
+            cpu: "1"
+            memory: 1536Mi
+          requests:
+            cpu: 128m
+            memory: 256Mi
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: dennis-k8s-configurator-auth
+      serviceAccountName: dennis-k8s-configurator-auth
+      terminationGracePeriodSeconds: 30

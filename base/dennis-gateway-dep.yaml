@@ -1,0 +1,105 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    fluxcd.io/automated: "true"
+#    fluxcd.io/tag.dennis-gateway: regex:^[0-9]+
+    fluxcd.io/tag.dennis-gateway: regex:^dev-.*
+  generation: 4
+  labels:
+    app.kubernetes.io/instance: dennis-gateway
+    app.kubernetes.io/name: dennis-gateway
+  name: dennis-gateway
+  namespace: dev
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: dennis-gateway
+      app.kubernetes.io/name: dennis-gateway
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "3000"
+      labels:
+        app.kubernetes.io/instance: dennis-gateway
+        app.kubernetes.io/name: dennis-gateway
+    spec:
+      shareProcessNamespace: true
+      containers:
+      - env:
+        - name: CONSUL_HTTP_ADDR
+          value: "http://dennis-consul-server:8500"
+        - name: CONSUL_AUTH_METHOD
+          value: "auth-method-consul-auth"
+        - name: LOG_LEVEL
+          value: "debug"
+        - name: VAULT_ADDR
+          value: "http://vault:8200"
+        - name: VAULT_AUTHENTICATION
+          value: KUBERNETES
+        - name: VAULT_K8S_ROLE
+          value: dennis_credential_role
+        image: 731927492438.dkr.ecr.sa-east-1.amazonaws.com/dennis-gateway:dev-9
+        imagePullPolicy: Always
+        name: dennis-gateway
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /health
+            port: 3000
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 1
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /health
+            port: 3000
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          limits:
+            cpu: "1"
+            memory: 1536Mi
+          requests:
+            cpu: 128m
+            memory: 256Mi
+        securityContext: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - name: "token"
+          mountPath: "/var/run/secrets/nats.io"
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: vault-auth
+      serviceAccountName: vault-auth
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: "token"
+        projected:
+          sources:
+          - secret:
+              name: "nats-gateway-dennis-nats-bound-token"
+              items:
+              - key: token
+                path: "token"

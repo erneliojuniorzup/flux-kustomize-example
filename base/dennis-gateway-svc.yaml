@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    fluxcd.io/automated: "true"
+  labels:
+    app.kubernetes.io/instance: dennis-gateway
+    app.kubernetes.io/name: dennis-gateway
+  name: dennis-gateway
+  namespace: dev
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+    - name: http
+      port: 3000
+      targetPort: 3000
+  selector:
+    app.kubernetes.io/instance: dennis-gateway
+    app.kubernetes.io/name: dennis-gateway
+  type: NodePort
