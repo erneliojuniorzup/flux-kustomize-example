@@ -22,10 +22,6 @@ spec:
           value: "debug"
         image: 731927492438.dkr.ecr.sa-east-1.amazonaws.com/dennis-builder-handler:dev-10
         name: dennis-builder-handler
- selector:
-    matchLabels:
-      app.kubernetes.io/instance: dennis-builder-handler
-      app.kubernetes.io/name: dennis-builder-handler
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -56,10 +52,6 @@ spec:
           value: dennis_credential_role
         image: 731927492438.dkr.ecr.sa-east-1.amazonaws.com/dennis-gateway:dev-10
         name: dennis-gateway
-  selector:
-    matchLabels:
-      app.kubernetes.io/instance: dennis-gateway
-      app.kubernetes.io/name: dennis-gateway
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -152,10 +144,6 @@ spec:
           value: "https://dennis-middleware.devdennis.zup.io"
         image: 731927492438.dkr.ecr.sa-east-1.amazonaws.com/dennis-k8s-configurator:dev-10
         name: dennis-k8s-configurator
-  selector:
-    matchLabels:
-      app.kubernetes.io/instance: dennis-k8s-configurator
-      app.kubernetes.io/name: dennis-k8s-configurator
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -176,10 +164,6 @@ spec:
           value: "https://dennis.devdennis.zup.io"
         image: 731927492438.dkr.ecr.sa-east-1.amazonaws.com/dennis-middleware:dev-55
         name: dennis-middleware
-  selector:
-    matchLabels:
-      app.kubernetes.io/instance: dennis-middleware
-      app.kubernetes.io/name: dennis-middleware
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -206,7 +190,3 @@ spec:
             value: "https://dennis-portal.devdennis.zup.io/callback
           image: 731927492438.dkr.ecr.sa-east-1.amazonaws.com/dennis-portal:dev-55
           name: dennis-portal
-  selector:
-    matchLabels:
-      app.kubernetes.io/instance: dennis-portal
-      app.kubernetes.io/name: dennis-portal
