@@ -20,7 +20,8 @@ spec:
           value: "auth-method-consul-auth"
         - name: LOG_LEVEL
           value: "debug"
-        image: 731927492438.dkr.ecr.sa-east-1.amazonaws.com/dennis-builder-handler:dev-10
+        name: dennis-builder-handler
+      - image: 731927492438.dkr.ecr.sa-east-1.amazonaws.com/dennis-builder-handler:dev-10
         name: dennis-builder-handler
 ---
 apiVersion: apps/v1
@@ -50,7 +51,8 @@ spec:
           value: KUBERNETES
         - name: VAULT_K8S_ROLE
           value: dennis_credential_role
-        image: 731927492438.dkr.ecr.sa-east-1.amazonaws.com/dennis-gateway:dev-10
+        name: dennis-gateway
+      - image: 731927492438.dkr.ecr.sa-east-1.amazonaws.com/dennis-gateway:dev-10
         name: dennis-gateway
 ---
 apiVersion: apps/v1
@@ -142,7 +144,8 @@ spec:
           value: "Dennis"
         - name: MIDDLEWARE_URL
           value: "https://dennis-middleware.devdennis.zup.io"
-        image: 731927492438.dkr.ecr.sa-east-1.amazonaws.com/dennis-k8s-configurator:dev-10
+        name: dennis-k8s-configurator
+      - image: 731927492438.dkr.ecr.sa-east-1.amazonaws.com/dennis-k8s-configurator:dev-10
         name: dennis-k8s-configurator
 ---
 apiVersion: apps/v1
@@ -162,8 +165,10 @@ spec:
       - env:
         - name: API_URL
           value: "https://dennis.devdennis.zup.io"
-        image: 731927492438.dkr.ecr.sa-east-1.amazonaws.com/dennis-middleware:dev-55
         name: dennis-middleware
+      - image: 731927492438.dkr.ecr.sa-east-1.amazonaws.com/dennis-middleware:dev-55
+        name: dennis-middleware
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -179,14 +184,15 @@ spec:
       $setElementOrder/containers:
       - name: dennis-portal
       containers:
-        - env:
-          - name: MIDDLEWARE_URL
-            value: "https://dennis-middleware.devdennis.zup.io"
-          - name: LIVEPASS_ENDPOINT
-            value: "https://idm-dev.continuousplatform.com/auth/realms/ZupDev/protocol/openid-connect"
-          - name: LIVEPASS_CLIENT_ID
-            value: "Dennis"
-          - name: LIVEPASS_REDIRECT_URI
-            value: "https://dennis-portal.devdennis.zup.io/callback
-          image: 731927492438.dkr.ecr.sa-east-1.amazonaws.com/dennis-portal:dev-55
-          name: dennis-portal
+      - env:
+        - name: MIDDLEWARE_URL
+          value: "https://dennis-middleware.devdennis.zup.io"
+        - name: LIVEPASS_ENDPOINT
+          value: "https://idm-dev.continuousplatform.com/auth/realms/ZupDev/protocol/openid-connect"
+        - name: LIVEPASS_CLIENT_ID
+          value: "Dennis"
+        - name: LIVEPASS_REDIRECT_URI
+          value: "https://dennis-portal.devdennis.zup.io/callback
+        name: dennis-portal
+      - image: 731927492438.dkr.ecr.sa-east-1.amazonaws.com/dennis-portal:dev-55
+        name: dennis-portal
