@@ -37,26 +37,6 @@ spec:
         image: 731927492438.dkr.ecr.sa-east-1.amazonaws.com/dennis-middleware:dev-44
         imagePullPolicy: Always
         name: dennis-middleware
-          #          livenessProbe:
-          #            failureThreshold: 3
-          #            httpGet:
-          #              path: /metrics
-          #              port: 3000
-          #              scheme: HTTP
-          #            initialDelaySeconds: 10
-          #            periodSeconds: 30
-          #            successThreshold: 1
-          #            timeoutSeconds: 1
-          #          readinessProbe:
-          #            failureThreshold: 3
-          #            httpGet:
-          #              path: /metrics
-          #              port: 3000
-          #              scheme: HTTP
-          #            initialDelaySeconds: 5
-          #            periodSeconds: 10
-          #            successThreshold: 1
-          #            timeoutSeconds: 1
         resources:
           limits:
             cpu: "1"
