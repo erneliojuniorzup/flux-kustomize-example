@@ -127,7 +127,7 @@ spec:
         env:
         - name: API_URL
           value: https://dennis.stgdennis.zup.io
-        image: 202035787030.dkr.ecr.sa-east-1.amazonaws.com/dennis-middleware:stg-13
+        image: 202035787030.dkr.ecr.sa-east-1.amazonaws.com/dennis-middleware:stg-14
         name: dennis-middleware
 ---
 apiVersion: apps/v1
