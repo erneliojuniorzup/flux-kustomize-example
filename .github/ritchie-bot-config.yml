@@ -1,0 +1,9 @@
+merge_branch:
+  enable: true # Enable merge branch with comment
+  branches: ['development','staging'] # Branches enabled to merge with comment
+  users: [
+      'erneliojuniorzup'
+  ] # Users enabled to merge with comment
+
+issue_project:
+  enable: false # Enable issue to project when opening a new issue
