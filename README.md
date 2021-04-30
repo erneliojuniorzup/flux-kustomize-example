@@ -2,7 +2,6 @@
 
 ## Scenario and Goals
 
-The following example makes use of Flux's manifest-generation feature
 together with [Kustomize](https://github.com/kubernetes-sigs/kustomize) (and other such tooling, in theory).
 
 For this example we assume an scenario with two clusters, `staging` and
